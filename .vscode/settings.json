@@ -1,5 +1,5 @@
 {
-    "java.home": "/c/app/jdk-21.0.5",
+    "java.home": "c:\\app\\jdk-21.0.5",
     "java.import.gradle.enabled": true,
     "java.import.maven.enabled": true,
     "java.import.auto": true

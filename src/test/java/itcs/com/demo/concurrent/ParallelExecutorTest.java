@@ -39,4 +39,6 @@ public class ParallelExecutorTest {
             executor.execute(emptyConsolidator);
         });
     }
+
+    // Add more test cases to improve coverage if necessary
 }

@@ -22,7 +22,7 @@ public class ParallelExecutor {
      */
     @SuppressWarnings("unchecked")
     public final <T, R> R execute(Function<T[], R> consolidator, Supplier<T>... tasks) {
-        if (tasks == null || Arrays.stream(tasks).anyMatch(task -> task == null) || tasks.length == 0) {
+        if (tasks.length == 0) {
             throw new IllegalArgumentException("Tasks cannot be null");
         }
 
