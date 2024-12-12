@@ -24,6 +24,11 @@ public class ParallelExecutor {
         Object[] tempResults = Arrays.stream(tasks)
                 .map(Supplier::get)
                 .toArray();
+
+        if (tasks == null || tasks.length == 0) {
+            return consolidator.apply((T[]) tempResults);
+        }
+
         T[] results = (T[]) java.lang.reflect.Array.newInstance(tasks[0].get().getClass(), tempResults.length);
         System.arraycopy(tempResults, 0, results, 0, tempResults.length);
         return consolidator.apply(results);

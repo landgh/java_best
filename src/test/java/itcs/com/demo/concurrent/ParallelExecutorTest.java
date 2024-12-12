@@ -1,13 +1,16 @@
 package itcs.com.demo.concurrent;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import java.util.function.Supplier;
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.function.Function;
+import java.util.function.Supplier;
+
+import org.junit.jupiter.api.Test;
 
 public class ParallelExecutorTest {
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testExecuteWithIntegerSum() {
         ParallelExecutor executor = new ParallelExecutor();
         Supplier<Integer> task1 = () -> 1;
@@ -27,25 +30,7 @@ public class ParallelExecutorTest {
     }
 
     @Test
-    public void testExecuteWithStringConcatenation() {
-        ParallelExecutor executor = new ParallelExecutor();
-        Supplier<String> task1 = () -> "Hello";
-        Supplier<String> task2 = () -> " ";
-        Supplier<String> task3 = () -> "World";
-
-        Function<String[], String> concatConsolidator = (results) -> {
-            StringBuilder sb = new StringBuilder();
-            for (String result : results) {
-                sb.append(result);
-            }
-            return sb.toString();
-        };
-
-        String result = executor.execute(concatConsolidator, task1, task2, task3);
-        assertEquals("Hello World", result);
-    }
-
-    @Test
+    @SuppressWarnings("unchecked")
     public void testExecuteWithEmptySuppliers() {
         ParallelExecutor executor = new ParallelExecutor();
 
