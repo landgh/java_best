@@ -31,12 +31,12 @@ public class ParallelExecutorTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testExecuteWithEmptySuppliers() {
+    public void testExecuteWithEmptySuppliers_Then_Exception() {
         ParallelExecutor executor = new ParallelExecutor();
 
         Function<Object[], Integer> emptyConsolidator = (results) -> results.length;
-
-        Integer result = executor.execute(emptyConsolidator);
-        assertEquals(0, result);
+        assertThrows(IllegalArgumentException.class, () -> {
+            executor.execute(emptyConsolidator);
+        });
     }
 }

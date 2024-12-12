@@ -1,6 +1,7 @@
 package itcs.com.demo.concurrent;
 
 import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -21,16 +22,20 @@ public class ParallelExecutor {
      */
     @SuppressWarnings("unchecked")
     public final <T, R> R execute(Function<T[], R> consolidator, Supplier<T>... tasks) {
-        Object[] tempResults = Arrays.stream(tasks)
-                .map(Supplier::get)
-                .toArray();
-
-        if (tasks == null || tasks.length == 0) {
-            return consolidator.apply((T[]) tempResults);
+        if (tasks == null || Arrays.stream(tasks).anyMatch(task -> task == null) || tasks.length == 0) {
+            throw new IllegalArgumentException("Tasks cannot be null");
         }
 
-        T[] results = (T[]) java.lang.reflect.Array.newInstance(tasks[0].get().getClass(), tempResults.length);
-        System.arraycopy(tempResults, 0, results, 0, tempResults.length);
-        return consolidator.apply(results);
+        CompletableFuture<T>[] futures = Arrays.stream(tasks)
+                .map(task -> CompletableFuture.supplyAsync(task))
+                .toArray(CompletableFuture[]::new);
+
+        CompletableFuture<Void> allOf = CompletableFuture.allOf(futures);
+
+        CompletableFuture<T[]> allResults = allOf.thenApply(v -> Arrays.stream(futures)
+                .map(CompletableFuture::join)
+                .toArray(size -> (T[]) java.lang.reflect.Array.newInstance(tasks[0].get().getClass(), size)));
+
+        return consolidator.apply(allResults.join());
     }
 }
