@@ -3,5 +3,5 @@
     "java.import.gradle.enabled": true,
     "java.import.maven.enabled": true,
     "java.import.auto": true
+    "workbench.panel.defaultLocation": "bottom"
 }
-
