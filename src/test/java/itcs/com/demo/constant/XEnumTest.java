@@ -18,7 +18,7 @@ public class XEnumTest {
 
     @Test
     void testGetValue() {
-        assertEquals("X_ENUM_ONE", XEnum.X_ENUM_ONE.getValue());
+        assertEquals("xOne", XEnum.X_ENUM_ONE.getName());
     }
 
     @Test

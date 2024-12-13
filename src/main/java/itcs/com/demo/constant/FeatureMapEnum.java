@@ -6,7 +6,7 @@ package itcs.com.demo.constant;
  */
 public interface FeatureMapEnum {
 
-    public String getValue();
+    public String getName();
 
     public Class<?> getClazz();
 
