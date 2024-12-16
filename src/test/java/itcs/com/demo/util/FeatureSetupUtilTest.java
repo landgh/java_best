@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,6 +47,20 @@ public class FeatureSetupUtilTest {
         assertEquals(1.0, map.get("X_TWO_NEW"), "xTwo should be renamed to X_TWO_NEW");
         assertTrue("9x".equals((String) map.get("xThree")), "xThree should be default value from enum");
         assertFalse(map.containsKey("ignored"));
+    }
+
+    @Test
+    void testPopulate_When_DataNull_Expect_Empty_Map() {
+        FeatureSetupUtil.populate(null, dataClass, map, keyMap, ignoreList, disableCaching, enumClass);
+        assertTrue(map.isEmpty());
+    }
+
+    @Test
+    void testPopulate_Expect_Exception() {
+        dataClass = null;
+        disableCaching = true;
+        assertThrows(RuntimeException.class,
+                () -> FeatureSetupUtil.populate(data, dataClass, map, keyMap, ignoreList, disableCaching, enumClass));
     }
 
     @Test

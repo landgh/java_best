@@ -29,12 +29,12 @@ public class FeatureSetupUtil {
 
         String newKey = null;
 
-        if (!disableCaching) {
-            map.putIfAbsent(dataClass.getSimpleName(), Boolean.TRUE);
-        }
-
         if (data == null) {
             return;
+        }
+
+        if (!disableCaching) {
+            map.putIfAbsent(dataClass.getSimpleName(), Boolean.TRUE);
         }
 
         Object fdData = null;
