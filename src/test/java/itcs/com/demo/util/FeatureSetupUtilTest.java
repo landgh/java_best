@@ -57,7 +57,7 @@ public class FeatureSetupUtilTest {
 
     @Test
     void testPopulate_Expect_Exception() {
-        dataClass = null;
+        keyMap = null;
         disableCaching = true;
         assertThrows(RuntimeException.class,
                 () -> FeatureSetupUtil.populate(data, dataClass, map, keyMap, ignoreList, disableCaching, enumClass));
@@ -71,6 +71,13 @@ public class FeatureSetupUtilTest {
         assertEquals("9x", map.get("xThree"));
     }
 
+    @Test
+    void testInitFeatureMapFromEnum_When_NulEnumClass_Expect_EmptyMap() {
+        Map<String, Object> map = FeatureSetupUtil.initFeatureMapFromEnum(null);
+        assertTrue(map.isEmpty());
+    }
+
+    @Test
     void testTrimFeatureMap() {
         Map<String, Object> featureMap = new HashMap<>();
         featureMap.put("xOne", "value1");
@@ -81,7 +88,8 @@ public class FeatureSetupUtilTest {
         FeatureSetupUtil.trimFeatureMap(featureMap, XEnum.class);
 
         assertTrue(featureMap.containsKey("xOne"));
+        assertTrue(featureMap.containsKey("xTwo"));
         assertTrue(featureMap.containsKey("xThree"));
-        assertFalse(featureMap.containsKey("XFour"));
+        assertFalse(featureMap.containsKey("XFour"), "XFour is removed");
     }
 }
