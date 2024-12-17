@@ -41,12 +41,25 @@ public class FeatureSetupUtilTest {
     }
 
     @Test
+    void testConstructor() {
+        new FeatureSetupUtil();
+    }
+
+    @Test
     void testPopulate_With_Renamed_And_Ignored_And_DefaultValueFromEnum() {
         FeatureSetupUtil.populate(data, dataClass, map, keyMap, ignoreList, disableCaching, enumClass);
+        assertTrue(map.containsKey("FeatureX"));
         assertEquals("xOne", map.get("xOne"), "xOne should be xOne from data object");
         assertEquals(1.0, map.get("X_TWO_NEW"), "xTwo should be renamed to X_TWO_NEW");
         assertTrue("9x".equals((String) map.get("xThree")), "xThree should be default value from enum");
         assertFalse(map.containsKey("ignored"));
+    }
+
+    @Test
+    void testPopulate_When_DisableCaching_True_Expect_No_ClassKey() {
+        disableCaching = true;
+        FeatureSetupUtil.populate(data, dataClass, map, keyMap, ignoreList, disableCaching, enumClass);
+        assertFalse(map.containsKey("FeatureX"));
     }
 
     @Test

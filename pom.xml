@@ -120,6 +120,9 @@
 									</limits>
 								</rule>
 							</rules>
+							<excludes>
+								<exclude>**/*$*</exclude> <!-- Exclude synthetic code -->
+							</excludes>
 						</configuration>
 					</execution>
 				</executions>

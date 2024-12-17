@@ -76,17 +76,14 @@ public class FeatureSetupUtil {
                 k -> EnumSet.allOf(enumClass).stream().noneMatch(e -> ((FeatureMapEnum) e).getName().equals(k)));
     }
 
-    private static <E extends Enum<E>> Object nullToDefault(Object fdData, String newKey, Class<E> enumClass,
+    protected static <E extends Enum<E>> Object nullToDefault(Object fdData, String newKey, Class<E> enumClass,
             Field field) {
         Object value = fdData;
-        if (fdData == null && enumClass != null) {
+        if (fdData == null) {
             E x = EnumSet.allOf(enumClass).stream()
                     .filter(e -> ((FeatureMapEnum) e).getName().equals(newKey))
                     .findFirst().orElse(null);
-            if (x != null) {
-                // cast to FeatureMapEnum
-                value = ((FeatureMapEnum) x).getDefaultValue();
-            }
+            value = ((FeatureMapEnum) x).getDefaultValue();
         }
 
         return value;
