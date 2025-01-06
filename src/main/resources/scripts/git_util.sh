@@ -19,7 +19,7 @@ refresh_repos() {
     echo "Refreshing git repos with $@"
     for p in "${!projs[@]}"; do
         dir=${projs[$p]}
-        branch=${branches[$p]:-master}
+        branch=${branches[$p]:-$(git remote show origin | grep 'HEAD branch' | awk '{print $NF}')}
         ok=0
 
         if [ "$param" ] && [ "$param" = "$p" ]; then
